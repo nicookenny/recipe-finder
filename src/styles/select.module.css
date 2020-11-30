@@ -1,0 +1,19 @@
+
+
+.select {
+    background-color:rgba(44, 213, 255, 0.685);
+	border: none;
+	outline: none;
+	font-weight: bold;
+	color: white;
+	width: 14em;
+	padding: 10px;
+	margin: 10px;
+	border-radius: 5px;
+}
+.select option {
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	padding: 5px;
+}
