@@ -40,6 +40,20 @@ const handlerNutrients = (value, dispatch) => {
 };
 
 const handlerSearch = async (state, dispatch) => {
+	if (state.ingredients == '') {
+		dispatch({
+			type: 'HAVE_ERROR',
+			error: 'Debes buscar al menos un ingrediente!',
+		});
+
+		return setTimeout(() => {
+			dispatch({
+				type: 'HAVE_ERROR',
+				error: null,
+			});
+		}, 2000);
+	}
+
 	dispatch({
 		type: 'START_FETCHING',
 	});
@@ -54,11 +68,9 @@ const handlerSearch = async (state, dispatch) => {
 
 	const response = await (await fetch(URL)).json();
 
-	setTimeout(() => {
-		dispatch({
-			type: 'STOP_FETCHING',
-		});
-	}, 1500);
+	dispatch({
+		type: 'STOP_FETCHING',
+	});
 
 	dispatch({
 		type: 'GET_RESPONSE',
@@ -68,7 +80,7 @@ const handlerSearch = async (state, dispatch) => {
 
 const Home = () => {
 	const [
-		{ ingredients, health, diet, calories, loading, recipes },
+		{ ingredients, health, diet, calories, loading, recipes, error },
 		dispatch,
 	] = useReducer(reducer, {
 		ingredients: '',
@@ -85,13 +97,18 @@ const Home = () => {
 			<div>
 				<h1 className={styles.title}>Busca recetas a tu medida!</h1>
 
-				<div>
+				<div style={{display:'flex',margin:'auto',justifyContent:'center',alignItems:'center'}}>
+					<div style={{display:'flex',flexDirection:'column'}}>
 					<Input
 						estilo={'225px'}
 						placeholder={'Ingrese ingredientes de su interés'}
 						onChange={handlerIngredient}
 						dispatch={dispatch}
 					/>
+					<span style={{ fontSize: '12px', color: 'red' }}>
+						{error ? error : null}
+					</span>
+					</div>
 					<Select
 						dispatch={dispatch}
 						onChange={handlerHealth}

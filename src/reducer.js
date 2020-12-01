@@ -35,6 +35,11 @@ const reducer = (state, action) => {
 				...state,
 				recipes: action.recipes,
 			};
+		case 'HAVE_ERROR':
+			return {
+				...state,
+				error: action.error,
+			};
 		default:
 			return state;
 	}
